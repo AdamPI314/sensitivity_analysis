@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{b64034e7-9ab7-44f7-92cf-db3e2c4ca876}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>main_driver.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId>Global|ContinuumAnalytics|Anaconda36-64</InterpreterId>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include=".vscode\.ropeproject\config.py" />
+    <Compile Include="calculate_SI.py" />
+    <Compile Include="color_marker.py" />
+    <Compile Include="fit_least_square_regression.py" />
+    <Compile Include="fit_plot.py" />
+    <Compile Include="global_settings.py" />
+    <Compile Include="main_driver.py" />
+    <Compile Include="my_utility.py" />
+    <Compile Include="parse_regression_coef.py" />
+    <Compile Include="read_write_configuration.py" />
+    <Compile Include="sensitivity_plot.py" />
+    <Compile Include="union_find.py" />
+    <Compile Include="variance_correlation_SI.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".vscode\" />
+    <Folder Include=".vscode\.ropeproject" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|ContinuumAnalytics|Anaconda36-64" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>
