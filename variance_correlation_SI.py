@@ -52,7 +52,7 @@ class SI_2nd_c:
     def my_legendre_polynomial_2D_val_x_y(self, x, y, *coef1D_in):
         # input parameter- pointer got to be pointer to 1D array
         # reshape to a 1D array and a 2D array
-        coef2D = np.reshape(coef1D_in, (self.Nth_order, self.Nth_order))
+        coef2D = np.array(coef1D_in).reshape((self.Nth_order, self.Nth_order))
         # exclude 0th and 1st order coef
         coef2D = np.insert(np.insert(coef2D, 0, 0, axis=0), 0, 0, axis=1)
         # value
@@ -123,7 +123,7 @@ class correlation_2nd_c:
     def my_legendre_polynomial_2D_val_x_y(self, x, y, *coef1D_in):
         # input parameter- pointer got to be pointer to 1D array
         # reshape to a 1D array and a 2D array
-        coef2D = np.reshape(coef1D_in, (self.Nth_order, self.Nth_order))
+        coef2D = np.array(coef1D_in).reshape((self.Nth_order, self.Nth_order))
         # exclude 0th and 1st order coef
         coef2D = np.insert(np.insert(coef2D, 0, 0, axis=0), 0, 0, axis=1)
         # value

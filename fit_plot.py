@@ -51,7 +51,7 @@ class plot_2D_c:
     def my_legendre_polynomial_2D_val(self, data_x_y, *coef2D_in):
         # input parameter- pointer got to be pointer to 1D array
         # reshape to a 2D array
-        coef2D = np.reshape(coef2D_in, (self.Nth_order, self.Nth_order))
+        coef2D = np.array(coef2D_in).reshape((self.Nth_order, self.Nth_order))
         # exclude 0th and 1st order coef
         coef2D = np.insert(np.insert(coef2D, 0, 0, axis=0), 0, 0, axis=1)
         # value
@@ -133,7 +133,7 @@ class plot_1D_2D_c:
     def my_legendre_polynomial_2D_val(self, data_x_y, *coef2D_in):
         # input parameter- pointer got to be pointer to 1D array
         # reshape to a 2D array
-        coef2D = np.reshape(coef2D_in, (self.Nth_order, self.Nth_order))
+        coef2D = np.array(coef2D_in).reshape((self.Nth_order, self.Nth_order))
         # exclude 0th and 1st order coef
         coef2D = np.insert(np.insert(coef2D, 0, 0, axis=0), 0, 0, axis=1)
         # value
@@ -150,7 +150,7 @@ class plot_1D_2D_c:
 
         coef2D_in = zero_first_second_in[self.Nth_order_1st + 1 + self.Nth_order_1st:]
         # reshape to a 2D array
-        coef2D = np.reshape(coef2D_in, (self.Nth_order_2nd, self.Nth_order_2nd))
+        coef2D = np.array(coef2D_in).reshape((self.Nth_order_2nd, self.Nth_order_2nd))
         # exclude 0th and 1st order coef
         coef2D = np.insert(np.insert(coef2D, 0, 0, axis=0), 0, 0, axis=1)
         # value
