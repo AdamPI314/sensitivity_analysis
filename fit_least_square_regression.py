@@ -99,7 +99,9 @@ class fit_1D_2D_all_c:
 
         return value_t
 
-    def __init__(self, data_all, z, in_Nth_order_1st=2, in_Nth_order_2nd=2):
+    def __init__(self, data_all, z, in_N_variable=8, in_Nth_order_1st=2, in_Nth_order_2nd=2):
+        assert(in_N_variable == np.shape(data_all)[1],
+               "Input data shape is not the same as given length")
         self.N_variable = np.shape(data_all)[1]
         # number of 2nd order terms
         self.possible_combination = self.nCr(self.N_variable, 2)
