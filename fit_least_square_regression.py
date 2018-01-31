@@ -26,6 +26,19 @@ class fit_1D_2D_all_c:
         func = math.factorial
         return func(n) / func(r) / func(n - r)
 
+    @staticmethod
+    def get_idx_pair_idx(N_variable):
+        """
+        return a dict of tuple() -> flatten index
+        """
+        flatten_idx = 0
+        idx_pair_idx = dict()
+        for i in range(0, N_variable):
+            for j in range(i + 1, N_variable):
+                idx_pair_idx[tuple([i, j])] = flatten_idx
+                flatten_idx += 1
+        return idx_pair_idx
+
     # split 1D coef array into 0th_order, 1st_order and 2nd_order
     @staticmethod
     def split_1D_coef_array_static(my_coef2D, N_variable, Nth_order_1st, Nth_order_2nd):
@@ -36,11 +49,13 @@ class fit_1D_2D_all_c:
         zero_th_order = my_coef2D[0]
         # 1st order; N_variable*Nth_order
         first_order = my_coef2D[1:N_variable * Nth_order_1st + 1]
-        coef_1st_order = np.array(first_order).reshape((N_variable, Nth_order_1st))
+        coef_1st_order = np.array(first_order).reshape(
+            (N_variable, Nth_order_1st))
         # 2nd order; possible combination
         # (factorial(N_variable)/factorial(2)/factorial(N_variable-2))
         second_order = my_coef2D[N_variable * Nth_order_1st + 1:]
-        coef_2nd_order = np.array(second_order).reshape((-1, Nth_order_2nd * Nth_order_2nd))
+        coef_2nd_order = np.array(second_order).reshape(
+            (-1, Nth_order_2nd * Nth_order_2nd))
         return zero_th_order, coef_1st_order, coef_2nd_order
 
     # split 1D coef array into 0th_order, 1st_order and 2nd_order
@@ -48,12 +63,16 @@ class fit_1D_2D_all_c:
         # 0th order
         zero_th_order = self.my_coef2D[0]
         # 1st order; N_variable*Nth_order
-        first_order = self.my_coef2D[1:self.N_variable * self.Nth_order_1st + 1]
-        coef_1st_order = np.array(first_order).reshape((self.N_variable, self.Nth_order_1st))
+        first_order = self.my_coef2D[1:self.N_variable *
+                                     self.Nth_order_1st + 1]
+        coef_1st_order = np.array(first_order).reshape(
+            (self.N_variable, self.Nth_order_1st))
         # 2nd order; possible combination
         # (factorial(N_variable)/factorial(2)/factorial(N_variable-2))
-        second_order = self.my_coef2D[self.N_variable * self.Nth_order_1st + 1:]
-        coef_2nd_order = np.array(second_order).reshape((-1, self.Nth_order_2nd * self.Nth_order_2nd))
+        second_order = self.my_coef2D[self.N_variable *
+                                      self.Nth_order_1st + 1:]
+        coef_2nd_order = np.array(second_order).reshape(
+            (-1, self.Nth_order_2nd * self.Nth_order_2nd))
         return zero_th_order, coef_1st_order, coef_2nd_order
 
     # The definition below is only for 2D legendre regression
@@ -70,11 +89,13 @@ class fit_1D_2D_all_c:
         zero_th_order = coef2D_in[0]
         # 1st order; N_variable*Nth_order
         first_order = coef2D_in[1:self.N_variable * self.Nth_order_1st + 1]
-        coef_1st_order = np.array(first_order).reshape((self.N_variable, self.Nth_order_1st))
+        coef_1st_order = np.array(first_order).reshape(
+            (self.N_variable, self.Nth_order_1st))
         # 2nd order; possible combination
         # (factorial(N_variable)/factorial(2)/factorial(N_variable-2))
         second_order = coef2D_in[self.N_variable * self.Nth_order_1st + 1:]
-        coef_2nd_order = np.array(second_order).reshape((-1, self.Nth_order_2nd * self.Nth_order_2nd))
+        coef_2nd_order = np.array(second_order).reshape(
+            (-1, self.Nth_order_2nd * self.Nth_order_2nd))
 
         # return value
         # 0th_order
@@ -89,9 +110,12 @@ class fit_1D_2D_all_c:
         order_index = 0  # label the 23 matrice
         for i in range(0, self.N_variable):
             for j in range(i + 1, self.N_variable):
-                coef_2nd_order_matrix = np.array(coef_2nd_order[order_index, :]).reshape((self.Nth_order_2nd, self.Nth_order_2nd))
-                coef_2nd_order_matrix = np.insert(np.insert(coef_2nd_order_matrix, 0, 0, axis=0), 0, 0, axis=1)
-                value_t += np.polynomial.legendre.legval2d(data_all[:, i], data_all[:, j], coef_2nd_order_matrix)
+                coef_2nd_order_matrix = np.array(coef_2nd_order[order_index, :]).reshape(
+                    (self.Nth_order_2nd, self.Nth_order_2nd))
+                coef_2nd_order_matrix = np.insert(
+                    np.insert(coef_2nd_order_matrix, 0, 0, axis=0), 0, 0, axis=1)
+                value_t += np.polynomial.legendre.legval2d(
+                    data_all[:, i], data_all[:, j], coef_2nd_order_matrix)
                 order_index += 1
 
         return value_t
@@ -129,7 +153,8 @@ class fit_1D_2D_all_c:
                 self.index_pair.append((i, j))
 
         # initial parameters
-        self.coef2D_init = np.zeros(1 + self.N_variable * self.Nth_order_1st + self.possible_combination * self.Nth_order_2nd * self.Nth_order_2nd)
+        self.coef2D_init = np.zeros(1 + self.N_variable * self.Nth_order_1st +
+                                    self.possible_combination * self.Nth_order_2nd * self.Nth_order_2nd)
         print("length of flatten parameters:\t", len(self.coef2D_init))
         # calculate my_coef, curve_fit with initial parameters
         self.my_coef2D, self.pcov = scopt.curve_fit(self.my_legendre_polynomial_2D_regression_all, k_all, target,
