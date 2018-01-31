@@ -5,7 +5,7 @@ import os
 import numpy as np
 
 
-def read_uncertainty(f_n_1, f_n_2):
+def read_uncertainty(f_n_1, f_n_2, exclude=None):
     """
     read in uncertainty and normalize
     """
@@ -22,6 +22,12 @@ def read_uncertainty(f_n_1, f_n_2):
         u_random[:, i] = (u_random[:, i] - 1 / u_const[i]) \
             / (u_const[i] - 1 / u_const[i])
         u_random[:, i] = u_random[:, i] * 2 - 1
+    if exclude is not None:
+        include = []
+        for i in range(len(u_const)):
+            if i not in exclude:
+                include.append(i)
+        u_random = u_random[:, include]
     return u_random
 
 

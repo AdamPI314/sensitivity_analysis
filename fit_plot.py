@@ -33,9 +33,14 @@ class plot_1D_c:
         coef_t = np.insert(coef, 0, 0, axis=0)
         return np.polynomial.legendre.legval(x, coef_t)
 
-    def __init__(self, file_dir, data_sample, target_time, mycoef_1D, zero_order, index,
+    def __init__(self, file_dir, data_sample, target_time, mycoef_1D, zero_order, index, n_2_o_idx=None,
                  file_name="target_vs_K_1D.jpg"):
-        file_name1 = file_name.split(".")[0] + "_" + str(index) + \
+
+        label = str(index)
+        if n_2_o_idx is not None:
+            label = str(n_2_o_idx[int(label)])
+
+        file_name1 = file_name.split(".")[0] + "_" + label + \
             "." + file_name.split(".")[-1]
 
         colors, markers, _ = get_colors_markers_linestyles()
@@ -60,8 +65,8 @@ class plot_1D_c:
         leg = ax.legend(loc=0, fancybox=True, prop={'size': 10.0})
         leg.get_frame().set_alpha(0.7)
         ax.grid()
+        ax.set_xlabel("$k_{" + label + "}$")
 
-        ax.set_xlabel("$k_{" + str(index) + "}$")
         ax.set_ylabel("target")
         ax.set_xlim([self.xmin, self.xmax])
 
@@ -87,7 +92,8 @@ class plot_2D_c:
         # value
         return np.polynomial.legendre.legval2d(data_x_y[0], data_x_y[1], coef2D)
 
-    def __init__(self, file_dir, data_sample, target_time, my_coef2D, idx_pair_idx, index, file_name="target_vs_K_2D.jpg"):
+    def __init__(self, file_dir, data_sample, target_time, my_coef2D, idx_pair_idx, index, n_2_o_idx=None,
+                 file_name="target_vs_K_2D.jpg"):
         """
         idx_pair_idx maps index pair (1, 3) to a flatten 1d index
         """
@@ -107,13 +113,20 @@ class plot_2D_c:
         c_b.formatter.set_powerlimits((-2, 2))
         c_b.update_ticks()
 
-        a_x.set_xlabel("$k_{" + str(index[1]) + "}$")
-        a_x.set_ylabel("$k_{" + str(index[0]) + "}$")
+        label0 = str(index[0])
+        label1 = str(index[1])
+        if n_2_o_idx is not None:
+            label0 = str(n_2_o_idx[int(label0)])
+            label1 = str(n_2_o_idx[int(label1)])
+
+        a_x.set_xlabel("$k_{" + label0 + "}$")
+        a_x.set_ylabel("$k_{" + label1 + "}$")
+
         a_x.ticklabel_format(axis='x', style='sci', scilimits=(-2, 2))
         a_x.ticklabel_format(axis='y', style='sci', scilimits=(-2, 2))
 
         file_name1 = file_name.split(".")[0] + \
-            "_" + str(index[0]) + "_" + str(index[1]) + \
+            "_" + label0 + "_" + label1 + \
             "_contour." + file_name.split(".")[-1]
         fig.savefig(os.path.join(file_dir, "output", file_name1), dpi=500)
 
@@ -133,8 +146,8 @@ class plot_2D_c:
         a_x_2.ticklabel_format(axis='y', style='sci', scilimits=(-2, 2))
         a_x_2.ticklabel_format(axis='z', style='sci', scilimits=(-2, 2))
 
-        a_x_2.set_xlabel("$k_{" + str(index[0]) + "}$")
-        a_x_2.set_ylabel("$k_{" + str(index[1]) + "}$")
+        a_x_2.set_xlabel("$k_{" + label0 + "}$")
+        a_x_2.set_ylabel("$k_{" + label1 + "}$")
         a_x_2.set_zlabel("target")
         a_x_2.set_title("$2^{nd}$ order fit function")
         a_x_2.view_init(37.5, -30)
@@ -143,7 +156,7 @@ class plot_2D_c:
         # ax2.view_init(100,-30)
 
         fig2.subplots_adjust(left=0.01, right=0.90, top=0.95)
-        file_name2 = file_name.split(".")[0] + "_" + str(index[0]) + "_" + str(index[1]) + "." + \
+        file_name2 = file_name.split(".")[0] + "_" + label0 + "_" + label1 + "." + \
             file_name.split(".")[-1]
         fig2.savefig(os.path.join(file_dir, "output", file_name2), dpi=500)
         plt.close('all')
@@ -203,7 +216,8 @@ class plot_1D_2D_c:
             np.polynomial.legendre.legval2d(data_x_y[0], data_x_y[1], coef2D)
 
     def __init__(self, file_dir, data_sample, target_time, zero_order, my_coef1D, my_coef2D,
-                 idx_pair_idx, index, file_name="target_vs_K_1D_2D.jpg"):
+                 idx_pair_idx, index,  n_2_o_idx=None,
+                 file_name="target_vs_K_1D_2D.jpg"):
         idx_2d = idx_pair_idx[tuple([index[0], index[1]])]
         self.Nth_order_2nd = int(np.sqrt(len(my_coef2D[idx_2d, :])))
 
@@ -231,12 +245,18 @@ class plot_1D_2D_c:
         cb.formatter.set_powerlimits((-2, 2))
         cb.update_ticks()
 
-        a_x.set_xlabel("$k_{" + str(index[0]) + "}$")
-        a_x.set_ylabel("$k_{" + str(index[1]) + "}$")
+        label0 = str(index[0])
+        label1 = str(index[1])
+        if n_2_o_idx is not None:
+            label0 = str(n_2_o_idx[int(label0)])
+            label1 = str(n_2_o_idx[int(label1)])
+
+        a_x.set_xlabel("$k_{" + label0 + "}$")
+        a_x.set_ylabel("$k_{" + label1 + "}$")
         a_x.ticklabel_format(axis='x', style='sci', scilimits=(-2, 2))
         a_x.ticklabel_format(axis='y', style='sci', scilimits=(-2, 2))
 
-        file_name1 = file_name.split(".")[0] + "_" + str(index[0]) + "_" + str(index[1]) + "_contour." + \
+        file_name1 = file_name.split(".")[0] + "_" + label0 + "_" + label1 + "_contour." + \
             file_name.split(".")[-1]
         fig.savefig(os.path.join(file_dir, "output", file_name1), dpi=600)
 
@@ -261,8 +281,8 @@ class plot_1D_2D_c:
         a_x_2.ticklabel_format(axis='y', style='sci', scilimits=(-2, 2))
         a_x_2.ticklabel_format(axis='z', style='sci', scilimits=(-2, 2))
 
-        a_x_2.set_xlabel("$k_{" + str(index[0]) + "}$")
-        a_x_2.set_ylabel("$k_{" + str(index[1]) + "}$")
+        a_x_2.set_xlabel("$k_{" + label0 + "}$")
+        a_x_2.set_ylabel("$k_{" + label1 + "}$")
         a_x_2.set_zlabel("target")
         a_x_2.set_title("$0^{th}$ + $1^{st}$ + $2^{nd}$ order fit function")
         #         ax2.view_init(37.5,-30)
@@ -272,13 +292,13 @@ class plot_1D_2D_c:
         #         ax2.view_init(100,-30)
 
         fig2.subplots_adjust(left=0.01, right=0.90, top=0.95)
-        file_name2 = file_name.split(".")[0] + "_" + str(index[0]) + "_" + str(index[1]) + "." + \
+        file_name2 = file_name.split(".")[0] + "_" + label0 + "_" + label1 + "." + \
             file_name.split(".")[-1]
         fig2.savefig(os.path.join(file_dir, "output", file_name2), dpi=600)
         plt.close('all')
 
 
-def plot_fit_functions(file_dir, s_a_s=None):
+def plot_fit_functions(file_dir, s_a_s=None, n_2_o_idx=None):
     """
     plot selected fit functions
     """
@@ -289,14 +309,17 @@ def plot_fit_functions(file_dir, s_a_s=None):
 
     _, zero_order_coef, first_order_coef, second_order_coef = prc.parse_regression_coef_c.get_var_zero_first_second_coef(
         file_dir, s_a_s=s_a_s)
-    for idx in range(int(s_a_s['n_dim'])):
+    for idx in range(int(s_a_s['N_variable'])):
         plot_1D_c(file_dir, u_norm, target_sample,
-                  first_order_coef, zero_order_coef, idx)
-    idx_pair_idx = flsr.fit_1D_2D_all_c.get_idx_pair_idx(s_a_s['n_dim'])
-    for i in range(int(s_a_s['n_dim'])):
-        for j in range(i + 1, int(s_a_s['n_dim'])):
+                  first_order_coef, zero_order_coef, idx,
+                  n_2_o_idx=n_2_o_idx)
+    idx_pair_idx = flsr.fit_1D_2D_all_c.get_idx_pair_idx(s_a_s['N_variable'])
+    for i in range(int(s_a_s['N_variable'])):
+        for j in range(i + 1, int(s_a_s['N_variable'])):
             plot_2D_c(file_dir, u_norm, target_sample,
-                      second_order_coef, idx_pair_idx, [i, j])
+                      second_order_coef, idx_pair_idx, [i, j],
+                      n_2_o_idx=n_2_o_idx)
             plot_1D_2D_c(file_dir, u_norm, target_sample,
                          zero_order_coef, first_order_coef, second_order_coef,
-                         idx_pair_idx, index=[i, j])
+                         idx_pair_idx, index=[i, j],
+                         n_2_o_idx=n_2_o_idx)
