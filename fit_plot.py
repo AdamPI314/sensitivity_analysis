@@ -173,7 +173,8 @@ class plot_1D_2D_c:
         # input parameter- pointer got to be pointer to 1D array
         # reshape to a 2D array
         # coef2D = np.reshape(coef2D_in, (self.Nth_order_2nd, self.Nth_order_2nd))
-        coef2D = np.array(coef2D_in).reshape((self.Nth_order_2nd, self.Nth_order_2nd))
+        coef2D = np.array(coef2D_in).reshape(
+            (self.Nth_order_2nd, self.Nth_order_2nd))
         # exclude 0th and 1st order coef
         coef2D = np.insert(np.insert(coef2D, 0, 0, axis=0), 0, 0, axis=1)
         # value
@@ -286,14 +287,16 @@ def plot_fit_functions(file_dir, s_a_s=None):
     target_sample = mu.read_target(os.path.join(
         file_dir, "output", "ign_global.csv"))
 
-    var_target, zero_order_coef, first_order_coef, second_order_coef = prc.parse_regression_coef_c.get_var_zero_first_second_coef(
+    _, zero_order_coef, first_order_coef, second_order_coef = prc.parse_regression_coef_c.get_var_zero_first_second_coef(
         file_dir, s_a_s=s_a_s)
-    # for idx in range(int(s_a_s['n_dim'])):
-    #     plot_1D_c(file_dir, u_norm, target_sample,
-    #               first_order_coef, zero_order_coef, idx)
+    for idx in range(int(s_a_s['n_dim'])):
+        plot_1D_c(file_dir, u_norm, target_sample,
+                  first_order_coef, zero_order_coef, idx)
     idx_pair_idx = flsr.fit_1D_2D_all_c.get_idx_pair_idx(s_a_s['n_dim'])
-    # plot_2D_c(file_dir, u_norm, target_sample,
-    #           second_order_coef, idx_pair_idx, [0, 2])
-    plot_1D_2D_c(file_dir, u_norm, target_sample,
-                 zero_order_coef, first_order_coef, second_order_coef,
-                 idx_pair_idx, index=[0, 2])
+    for i in range(int(s_a_s['n_dim'])):
+        for j in range(i + 1, int(s_a_s['n_dim'])):
+            plot_2D_c(file_dir, u_norm, target_sample,
+                      second_order_coef, idx_pair_idx, [i, j])
+            plot_1D_2D_c(file_dir, u_norm, target_sample,
+                         zero_order_coef, first_order_coef, second_order_coef,
+                         idx_pair_idx, index=[i, j])
