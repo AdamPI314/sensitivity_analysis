@@ -15,6 +15,10 @@ def read_uncertainty(f_n_1, f_n_2):
     # data modification, logendre polynomial is orthonormal in the range of
     # (-1, 1)
     for i, _ in enumerate(u_const):
+        # species case when u_const is 1.0
+        if u_const[i] == 1.0:
+            u_random[:, i] = u_random[:, i] * 0.0
+            continue
         u_random[:, i] = (u_random[:, i] - 1 / u_const[i]) \
             / (u_const[i] - 1 / u_const[i])
         u_random[:, i] = u_random[:, i] * 2 - 1
