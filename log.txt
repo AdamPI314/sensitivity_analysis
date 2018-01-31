@@ -1,0 +1,17 @@
+/opt/anaconda/lib/python3.6/site-packages/scipy/optimize/minpack.py:779: OptimizeWarning: Covariance of the parameters could not be estimated
+  category=OptimizeWarning)
+/home/invictus/Documents/spring_2018_boulder/SRC_EXE_DIR/SOHR/projects/sensitivity_analysis/fit_plot.py:122: MatplotlibDeprecationWarning: pyplot.hold is deprecated.
+    Future behavior will be consistent with the long-time default:
+    plot commands add elements without first clearing the
+    Axes and/or Figure.
+  plt.hold(True)
+/opt/anaconda/lib/python3.6/site-packages/matplotlib/__init__.py:917: UserWarning: axes.hold is deprecated. Please remove it from your matplotlibrc and/or style files.
+  warnings.warn(self.msg_depr_set % key)
+/opt/anaconda/lib/python3.6/site-packages/matplotlib/rcsetup.py:152: UserWarning: axes.hold is deprecated, will be removed in 3.0
+  warnings.warn("axes.hold is deprecated, will be removed in 3.0")
+/home/invictus/Documents/spring_2018_boulder/SRC_EXE_DIR/SOHR
+length of flatten parameters:	 129
+fit DONE!
+calculate SI DONE!
+Plot SI DONE!
+Plot FIT FUNCTIONS DONE!
