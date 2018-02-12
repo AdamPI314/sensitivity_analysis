@@ -13,7 +13,7 @@ import global_settings
 from color_marker import get_colors_markers_linestyles
 
 
-def bar_1D_SI(file_dir, n_2_o_idx=None):
+def bar_1D_SI(data_dir, n_2_o_idx=None):
     """
     bar
     """
@@ -21,7 +21,7 @@ def bar_1D_SI(file_dir, n_2_o_idx=None):
     colors, markers, _ = get_colors_markers_linestyles()
 
     SI_1st_data = np.loadtxt(os.path.join(
-        file_dir, "output", "SI_1st.csv"), delimiter=',', dtype=float)
+        data_dir, "output", "SI_1st.csv"), delimiter=',', dtype=float)
 
     # figure object
     fig, ax = plt.subplots(1, 1, sharex=False, sharey=False)
@@ -56,6 +56,6 @@ def bar_1D_SI(file_dir, n_2_o_idx=None):
     plt.subplots_adjust(left=None, bottom=None, right=None,
                         top=None, wspace=None, hspace=None)
 
-    o_f_n = os.path.join(file_dir, "output", "SI_1st.png")
+    o_f_n = os.path.join(data_dir, "output", "SI_1st.png")
     fig.savefig(o_f_n, dpi=500, bbox_inches='tight')
     plt.close(fig)

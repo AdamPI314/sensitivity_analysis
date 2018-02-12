@@ -33,7 +33,7 @@ class plot_1D_c:
         coef_t = np.insert(coef, 0, 0, axis=0)
         return np.polynomial.legendre.legval(x, coef_t)
 
-    def __init__(self, file_dir, data_sample, target_time, mycoef_1D, zero_order, index, n_2_o_idx=None,
+    def __init__(self, data_dir, data_sample, target_time, mycoef_1D, zero_order, index, n_2_o_idx=None,
                  file_name="target_vs_K_1D.jpg"):
 
         label = str(index)
@@ -70,7 +70,7 @@ class plot_1D_c:
         ax.set_ylabel("target")
         ax.set_xlim([self.xmin, self.xmax])
 
-        fig.savefig(os.path.join(file_dir, "output", file_name1), dpi=500)
+        fig.savefig(os.path.join(data_dir, "output", file_name1), dpi=500)
         plt.close('all')
 
 
@@ -92,7 +92,7 @@ class plot_2D_c:
         # value
         return np.polynomial.legendre.legval2d(data_x_y[0], data_x_y[1], coef2D)
 
-    def __init__(self, file_dir, data_sample, target_time, my_coef2D, idx_pair_idx, index, n_2_o_idx=None,
+    def __init__(self, data_dir, data_sample, target_time, my_coef2D, idx_pair_idx, index, n_2_o_idx=None,
                  file_name="target_vs_K_2D.jpg"):
         """
         idx_pair_idx maps index pair (1, 3) to a flatten 1d index
@@ -128,7 +128,7 @@ class plot_2D_c:
         file_name1 = file_name.split(".")[0] + \
             "_" + label0 + "_" + label1 + \
             "_contour." + file_name.split(".")[-1]
-        fig.savefig(os.path.join(file_dir, "output", file_name1), dpi=500)
+        fig.savefig(os.path.join(data_dir, "output", file_name1), dpi=500)
 
         fig2 = plt.figure()
         a_x_2 = fig2.add_subplot(111, projection='3d')
@@ -158,7 +158,7 @@ class plot_2D_c:
         fig2.subplots_adjust(left=0.01, right=0.90, top=0.95)
         file_name2 = file_name.split(".")[0] + "_" + label0 + "_" + label1 + "." + \
             file_name.split(".")[-1]
-        fig2.savefig(os.path.join(file_dir, "output", file_name2), dpi=500)
+        fig2.savefig(os.path.join(data_dir, "output", file_name2), dpi=500)
         plt.close('all')
 
 
@@ -215,7 +215,7 @@ class plot_1D_2D_c:
                                                                                                    coef_t1) + zero_t + \
             np.polynomial.legendre.legval2d(data_x_y[0], data_x_y[1], coef2D)
 
-    def __init__(self, file_dir, data_sample, target_time, zero_order, my_coef1D, my_coef2D,
+    def __init__(self, data_dir, data_sample, target_time, zero_order, my_coef1D, my_coef2D,
                  idx_pair_idx, index,  n_2_o_idx=None,
                  file_name="target_vs_K_1D_2D.jpg"):
         idx_2d = idx_pair_idx[tuple([index[0], index[1]])]
@@ -258,7 +258,7 @@ class plot_1D_2D_c:
 
         file_name1 = file_name.split(".")[0] + "_" + label0 + "_" + label1 + "_contour." + \
             file_name.split(".")[-1]
-        fig.savefig(os.path.join(file_dir, "output", file_name1), dpi=600)
+        fig.savefig(os.path.join(data_dir, "output", file_name1), dpi=600)
 
         fig2 = plt.figure()
         a_x_2 = fig2.add_subplot(111, projection='3d')
@@ -294,32 +294,32 @@ class plot_1D_2D_c:
         fig2.subplots_adjust(left=0.01, right=0.90, top=0.95)
         file_name2 = file_name.split(".")[0] + "_" + label0 + "_" + label1 + "." + \
             file_name.split(".")[-1]
-        fig2.savefig(os.path.join(file_dir, "output", file_name2), dpi=600)
+        fig2.savefig(os.path.join(data_dir, "output", file_name2), dpi=600)
         plt.close('all')
 
 
-def plot_fit_functions(file_dir, s_a_s=None, n_2_o_idx=None):
+def plot_fit_functions(data_dir, s_a_s=None, n_2_o_idx=None):
     """
     plot selected fit functions
     """
-    u_norm = mu.read_uncertainty(os.path.join(file_dir, "output", "uncertainties_const.csv"),
-                                 os.path.join(file_dir, "output", "k_global.csv"))
+    u_norm = mu.read_uncertainty(os.path.join(data_dir, "output", "uncertainties_const.csv"),
+                                 os.path.join(data_dir, "output", "k_global.csv"))
     target_sample = mu.read_target(os.path.join(
-        file_dir, "output", "ign_global.csv"))
+        data_dir, "output", "ign_global.csv"))
 
     _, zero_order_coef, first_order_coef, second_order_coef = prc.parse_regression_coef_c.get_var_zero_first_second_coef(
-        file_dir, s_a_s=s_a_s)
+        data_dir, s_a_s=s_a_s)
     for idx in range(int(s_a_s['N_variable'])):
-        plot_1D_c(file_dir, u_norm, target_sample,
+        plot_1D_c(data_dir, u_norm, target_sample,
                   first_order_coef, zero_order_coef, idx,
                   n_2_o_idx=n_2_o_idx)
     idx_pair_idx = flsr.fit_1D_2D_all_c.get_idx_pair_idx(s_a_s['N_variable'])
     for i in range(int(s_a_s['N_variable'])):
         for j in range(i + 1, int(s_a_s['N_variable'])):
-            plot_2D_c(file_dir, u_norm, target_sample,
+            plot_2D_c(data_dir, u_norm, target_sample,
                       second_order_coef, idx_pair_idx, [i, j],
                       n_2_o_idx=n_2_o_idx)
-            plot_1D_2D_c(file_dir, u_norm, target_sample,
+            plot_1D_2D_c(data_dir, u_norm, target_sample,
                          zero_order_coef, first_order_coef, second_order_coef,
                          idx_pair_idx, index=[i, j],
                          n_2_o_idx=n_2_o_idx)

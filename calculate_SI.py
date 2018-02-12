@@ -12,14 +12,14 @@ import parse_regression_coef as prc
 import variance_correlation_SI as vcs
 
 
-def calculate_SI_s2f(file_dir, s_a_s=None):
+def calculate_SI_s2f(data_dir, s_a_s=None):
     """
     calculate SI and save to file
     s_a_s represents "sensitivity analyis settings", which is a dictionary
     """
     var_target, _, first_order_coef, second_order_coef = \
         prc.parse_regression_coef_c.get_var_zero_first_second_coef(
-            file_dir, s_a_s=s_a_s)
+            data_dir, s_a_s=s_a_s)
 
     SI_1st_object = [vcs.SI_1st_c(var_target, first_order_coef[i], np.shape(first_order_coef)[1])
                      for i in range(np.shape(first_order_coef)[0])]
@@ -31,7 +31,7 @@ def calculate_SI_s2f(file_dir, s_a_s=None):
     SI_2nd = [x.data for x in SI_2nd_object]
     #print(SI_2nd, sum(SI_2nd))
 
-    SI_1st_f_n = os.path.join(file_dir, "output", "SI_1st.csv")
+    SI_1st_f_n = os.path.join(data_dir, "output", "SI_1st.csv")
     np.savetxt(SI_1st_f_n, SI_1st, fmt='%.18e', delimiter=',')
-    SI_2nd_f_n = os.path.join(file_dir, "output", "SI_2nd.csv")
+    SI_2nd_f_n = os.path.join(data_dir, "output", "SI_2nd.csv")
     np.savetxt(SI_2nd_f_n, SI_2nd, fmt='%.18e', delimiter=',')

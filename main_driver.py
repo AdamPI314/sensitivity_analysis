@@ -17,18 +17,18 @@ from naming import index_transition
 if __name__ == '__main__':
     TIME_I = time.time()
 
-    FILE_DIR = os.path.abspath(os.path.join(os.path.realpath(
+    DATA_DIR = os.path.abspath(os.path.join(os.path.realpath(
         sys.argv[0]), os.pardir, os.pardir, os.pardir, os.pardir, "SOHR_DATA"))
-    print(FILE_DIR)
+    print(DATA_DIR)
 
-    S_A_S = global_settings.get_s_a_setting(FILE_DIR)
+    S_A_S = global_settings.get_s_a_setting(DATA_DIR)
     _, N_2_O_IDX = index_transition(S_A_S['n_dim'], S_A_S['exclude'])
 
-    u_norm = mu.read_uncertainty(os.path.join(FILE_DIR, "output", "uncertainties_const.csv"),
-                                 os.path.join(FILE_DIR, "output", "k_global.csv"),
+    u_norm = mu.read_uncertainty(os.path.join(DATA_DIR, "output", "uncertainties_const.csv"),
+                                 os.path.join(DATA_DIR, "output", "k_global.csv"),
                                  exclude=S_A_S['exclude'])
     target_all = mu.read_target(os.path.join(
-        FILE_DIR, "output", "ign_global.csv"))
+        DATA_DIR, "output", "ign_global.csv"))
 
     if S_A_S['exclude'] is not None:
         S_A_S['N_variable'] -= len(S_A_S['exclude'])
@@ -36,14 +36,14 @@ if __name__ == '__main__':
                                          S_A_S['N_variable'],
                                          S_A_S['Nth_order_1st'],
                                          S_A_S['Nth_order_2nd'])
-    fit_1D_2D_all.coef_s2f(os.path.join(FILE_DIR, "output", "fit_coef.inp"))
+    fit_1D_2D_all.coef_s2f(os.path.join(DATA_DIR, "output", "fit_coef.inp"))
     print("fit DONE!")
 
-    cs.calculate_SI_s2f(FILE_DIR, S_A_S)
+    cs.calculate_SI_s2f(DATA_DIR, S_A_S)
     print("calculate SI DONE!")
 
-    splot.bar_1D_SI(FILE_DIR, N_2_O_IDX)
+    splot.bar_1D_SI(DATA_DIR, N_2_O_IDX)
     print("Plot SI DONE!")
 
-    fp.plot_fit_functions(FILE_DIR, S_A_S, N_2_O_IDX)
+    fp.plot_fit_functions(DATA_DIR, S_A_S, N_2_O_IDX)
     print("Plot FIT FUNCTIONS DONE!")

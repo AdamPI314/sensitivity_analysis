@@ -41,7 +41,7 @@ def get_colors_markers_linestyles():
     return colors, markers, linestyles
 
 
-def make_figure_template(file_dir):
+def make_figure_template(data_dir):
     """
     make_figure_template
     """
@@ -53,9 +53,9 @@ def make_figure_template(file_dir):
     # figure name
     fig_name = "test.jpg"
 
-    data_x = np.loadtxt(os.path.join(file_dir, f_n_x),
+    data_x = np.loadtxt(os.path.join(data_dir, f_n_x),
                         dtype=float, delimiter=",")
-    data_y = np.loadtxt(os.path.join(file_dir, f_n_y),
+    data_y = np.loadtxt(os.path.join(data_dir, f_n_y),
                         dtype=float, delimiter=",")
     # specify label for lines
     labels = ["line" + str(i + 1) for i in range(len(data_y))]
@@ -80,5 +80,5 @@ def make_figure_template(file_dir):
     a_x.set_title("O$_2$ + npropyl")
 
     fig.tight_layout()
-    fig.savefig(os.path.join(file_dir, fig_name), dpi=500)
+    fig.savefig(os.path.join(data_dir, fig_name), dpi=500)
     plt.close()

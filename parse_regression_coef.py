@@ -44,13 +44,13 @@ class parse_regression_coef_c:
         return var, [zeroth] + first_t + second_t
 
     @staticmethod
-    def get_var_zero_first_second_coef(file_dir, s_a_s=None):
+    def get_var_zero_first_second_coef(data_dir, s_a_s=None):
         """
         return zero-th order, first order and second order coefficient
         """
         if s_a_s is None:
             return
-        f_n_coef = os.path.join(file_dir, "output", "fit_coef.inp")
+        f_n_coef = os.path.join(data_dir, "output", "fit_coef.inp")
         var_coef_frame_obj = parse_regression_coef_c.read_pathway_as_pandas_frame_object(
             f_n_coef)
         var_coef_list = parse_regression_coef_c.convert_pandas_frame_object_to_list(
